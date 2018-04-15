@@ -48,11 +48,6 @@ model = helper.build_model(SEQUENCE_LENGTH, chars)
 # model.fit(X, y, batch_size=128, nb_epoch=EPOCHS)
 model = load_model("final.h5")  # you can skip training by loading the trained weights
 
-"""
-    Pick a random sequence and make the network continue
-"""
-
-
 for diversity in [0.2, 0.5, 1.0, 1.2]:
     print()
     print('----- diversity:', diversity)

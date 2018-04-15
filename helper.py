@@ -10,6 +10,7 @@ from keras.layers import LSTM
 from keras.optimizers import RMSprop
 import io
 import numpy as np
+import re
 
 
 def create_sequences(text, sequence_length, step):
@@ -19,6 +20,15 @@ def create_sequences(text, sequence_length, step):
         sequences.append(text[i: i + sequence_length])
         next_chars.append(text[i + sequence_length])
     return sequences, next_chars
+
+
+def create_word_sequences(words, sequence_length, step):
+    word_sequences = []
+    next_words = []
+    for i in range(0, len(words) - sequence_length, step):
+        word_sequences.append(words[i: i + sequence_length])
+        next_words.append(words[i + sequence_length])
+    return word_sequences, next_words
 
 
 def build_model(sequence_length, chars):
@@ -55,7 +65,7 @@ def get_chars_index_dicts(chars):
 
 def read_corpus(path):
     with io.open(path, 'r', encoding='utf8') as f:
-        return f.read().lower()
+        return re.sub(' +',' ', f.read().replace('\n', ' ').strip().lower())
 
 
 def vectorize(sequences, sequence_length, chars, char_to_index, next_chars):
